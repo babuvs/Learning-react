@@ -5,11 +5,13 @@ import './App.css'
 import Box from './Box';
 function App() {
   const [count, setCount] = useState(0);
-  const posts = [];
+  const [color, setColor] = useState('red');
+  const [boxList, setBoxList] = useState([]);
+  function addBox() {
+    const boxes = boxList || [];
+    boxes.push(color);
+    setBoxList([...boxes])
 
-  for (let index = 0; index <= count; index++) {
-    posts.push(index);
-    
   }
   return (
     <>
@@ -27,9 +29,14 @@ function App() {
         </button>
        
       </div>
-     { posts.map((post, index) =>
+      <div>
+        <input type='color'  onChange={e => setColor(e.target.value)}/>  <button onClick={addBox}>
+          Add
+        </button>
+      </div>
+     { boxList.map((color, index) =>
     <Fragment key={index}>
-      <Box ></Box>
+      <Box  color={color}></Box>
     </Fragment>) }
      
      

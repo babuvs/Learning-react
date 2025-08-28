@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Link, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import Box from "./Box";
 import Counter from "./count";
 import AutoIncrementCount from "./AutoIncrement";
@@ -20,7 +20,7 @@ function App() {
         </Routes>
       </BrowserRouter>
 
-      <Outlet></Outlet>
+      
     </>
   );
 }

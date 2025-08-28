@@ -13,8 +13,8 @@ export default function AutoIncrementCount() {
   }, [count]);
   return (
     <>
-      <div className="card">
-        <button>count is {count}</button>
+      <div className="card w-50 m-auto my-5">
+        <button className="btn btn-primary w-1000">count is {count}</button>
       </div>
     </>
   );

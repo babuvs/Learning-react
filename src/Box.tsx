@@ -9,17 +9,22 @@ export default function Box() {
   }
   return (
     <>
-      <div>
-        <input type="color" onChange={(e) => setColor(e.target.value)} />{" "}
-        <button onClick={() => addBox()}>Add</button>
+      <div className="card w-50 m-auto my-5 px-5 py-5">
+        <input type="color" className="form-control form-control-lg" onChange={(e) => setColor(e.target.value)} />{" "}
+        <button className="btn btn-primary w-50 m-auto" onClick={() => addBox()}>Add</button>
       </div>
-      {boxList.map((color, index) => (
+      <div className="row mx-auto">
+ {boxList.map((color, index) => (
+  <div className="col-3">
         <div
-          className="box"
+          className="p-5 card h-10  my-2"
           key={index}
           style={{ borderColor: color, background: color }}
         ></div>
+        </div>
       ))}
+      </div>
+     
     </>
   );
 }

@@ -3,24 +3,37 @@ import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import Box from "./Box";
 import Counter from "./count";
 import AutoIncrementCount from "./AutoIncrement";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
     <>
       <BrowserRouter>
-        <nav className="d-flex">
-          <Link to="/">Home</Link>
-          <Link to="/counter">Counter</Link>
-          <Link to="/autoIncrement">Auto update Count</Link>
-        </nav>
+        <ul className="nav nav-tabs">
+          <li className="nav-item">
+            <span className="nav-link">
+              <Link to="/">Home</Link>
+            </span>
+          </li>
+          <li className="nav-item">
+            <span className="nav-link">
+              <Link to="/autoIncrement">Auto update Count</Link>
+            </span>
+          </li>
+
+          <li className="nav-item">
+            <span className="nav-link">
+              <Link to="/counter">Counter</Link>
+            </span>
+          </li>
+        </ul>
+
         <Routes>
           <Route path="/" element={<Box />} />
           <Route path="/counter" element={<Counter />} />
           <Route path="/autoIncrement" element={<AutoIncrementCount />} />
         </Routes>
       </BrowserRouter>
-
-      
     </>
   );
 }

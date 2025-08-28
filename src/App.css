@@ -48,3 +48,8 @@
   margin: 10px;
 }
 
+.d-flex {
+  display: flex;
+  gap: 10px;
+}
+

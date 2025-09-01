@@ -4,7 +4,7 @@ import Box from "./Box";
 import Counter from "./count";
 import AutoIncrementCount from "./AutoIncrement";
 import "bootstrap/dist/css/bootstrap.min.css";
-
+import RegisterForm from "./registerForm";
 function App() {
   return (
     <>
@@ -13,6 +13,11 @@ function App() {
           <li className="nav-item">
             <span className="nav-link">
               <Link to="/">Home</Link>
+            </span>
+          </li>
+          <li className="nav-item">
+            <span className="nav-link">
+              <Link to="/register">Register</Link>
             </span>
           </li>
           <li className="nav-item">
@@ -32,6 +37,7 @@ function App() {
           <Route path="/" element={<Box />} />
           <Route path="/counter" element={<Counter />} />
           <Route path="/autoIncrement" element={<AutoIncrementCount />} />
+          <Route path="/register" element={<RegisterForm />} />
         </Routes>
       </BrowserRouter>
     </>

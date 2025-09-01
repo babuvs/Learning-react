@@ -9,6 +9,7 @@ export default function Counter() {
   function reduceCount() {
     setCount((count) => count - 1);
   }
+  
   return (
     <>
       <div className="text-center mt-5">

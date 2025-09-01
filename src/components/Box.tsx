@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "./App.css";
-import abc from "./abc";
 export default function Box() {
   const [color, setColor]: [string, any] = useState("red");
   const [boxList, setBoxList] = useState<string[]>([]);

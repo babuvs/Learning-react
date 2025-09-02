@@ -60,7 +60,7 @@ export default function RegisterForm() {
         .required("Please fill the Pincode"),
     }),
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      console.log(values);
     },
   });
 

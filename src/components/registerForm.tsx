@@ -1,4 +1,6 @@
 import { useEffect, useState, type JSX } from "react";
+import * as Yup from "yup";
+import { useFormik } from "formik";
 
 export default function RegisterForm() {
   const [countryList, setCountryList] = useState<JSX.Element[]>([]);
@@ -18,23 +20,49 @@ export default function RegisterForm() {
   }, []);
 
   function handleSubmit(event: any) {
-    const form = event.target;
-    const elements = form.elements;
-    const formData = new FormData(form);
-    const formJson = Object.fromEntries(formData.entries());
-    Object.keys(formJson).forEach((key) => {
-      const element = elements[key];
-      if (element?.validationMessage) {
-        alert(element?.validationMessage);
-      }
-    });
+    registerFormData.handleSubmit();
     event.preventDefault();
-    const isvalid = form.checkValidity();
-    if (!isvalid) {
-      return false;
-    }
-    return true;
   }
+
+  const registerFormData = useFormik({
+    initialValues: {
+      userName: "",
+      password: "",
+      email: "",
+      mobileNo: "",
+      age: 0,
+      address: "",
+      country: "",
+      pincode: "",
+    },
+    validationSchema: Yup.object({
+      userName: Yup.string().required("Please fill the User Name"),
+      password: Yup.string()
+        .min(8, "Must be 8 characters or more")
+        .max(15, "Must be 15 characters or less")
+        .matches(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+          "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+        )
+        .required("Please fill the Password"),
+      email: Yup.string().email("Invalid email address").required("Please fill the Email"),
+      mobileNo: Yup.string()
+        .matches(/^[0-9]{10}$/, "Must be exactly 10 digits")
+        .required("Please fill the Phone Number"),
+      age: Yup.number()
+        .min(10, "Must be at least 10")
+        .max(100, "Must be 100 or less")
+        .required("Please fill the Age"),
+      address: Yup.string().required("Please fill the Address"),
+      country: Yup.string().required("Please select the Country"),
+      pincode: Yup.string()
+        .matches(/^[0-9]{6}$/, "Must be exactly 6 digits")
+        .required("Please fill the Pincode"),
+    }),
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
 
   return (
     <div className="card w-25 m-auto my-5">
@@ -55,7 +83,15 @@ export default function RegisterForm() {
             id="userName"
             placeholder="User Name"
             required
+            onChange={registerFormData.handleChange}
+            onBlur={registerFormData.handleBlur}
           />
+          {registerFormData.touched.userName &&
+          registerFormData.errors.userName ? (
+            <div className="text-start text-danger">
+              {registerFormData.errors.userName}
+            </div>
+          ) : null}
         </div>
         <div className="form-group my-2">
           <label htmlFor="email" className="text-start pb-1 w-100">
@@ -67,9 +103,17 @@ export default function RegisterForm() {
             className="form-control"
             id="email"
             placeholder="email@example.com"
+            onChange={registerFormData.handleChange}
+            onBlur={registerFormData.handleBlur}
             required
           />
+          {registerFormData.touched.email && registerFormData.errors.email ? (
+            <div className="text-start text-danger">
+              {registerFormData.errors.email}
+            </div>
+          ) : null}
         </div>
+
         <div className="form-group my-2">
           <label htmlFor="password" className="text-start pb-1 w-100">
             Password
@@ -80,11 +124,17 @@ export default function RegisterForm() {
             className="form-control"
             id="password"
             placeholder="Password"
-            required
-            minLength={8}
-            maxLength={16}
+            onChange={registerFormData.handleChange}
+            onBlur={registerFormData.handleBlur}
           />
+          {registerFormData.touched.password &&
+          registerFormData.errors.password ? (
+            <div className="text-start text-danger">
+              {registerFormData.errors.password}
+            </div>
+          ) : null}
         </div>
+
         <div className="form-group my-2">
           <label htmlFor="mobileNo" className="text-start pb-1 w-100">
             Phone Number
@@ -95,9 +145,17 @@ export default function RegisterForm() {
             className="form-control"
             id="mobileNo"
             placeholder="Phone Number"
-            required
+            onChange={registerFormData.handleChange}
+            onBlur={registerFormData.handleBlur}
           />
+          {registerFormData.touched.mobileNo &&
+          registerFormData.errors.mobileNo ? (
+            <div className="text-start text-danger">
+              {registerFormData.errors.mobileNo}
+            </div>
+          ) : null}
         </div>
+
         <div className="form-group my-2">
           <label htmlFor="age" className="text-start pb-1 w-100">
             Age
@@ -108,11 +166,16 @@ export default function RegisterForm() {
             className="form-control"
             id="age"
             placeholder="Age"
-            required
-            min={10}
-            max={100}
+            onChange={registerFormData.handleChange}
+            onBlur={registerFormData.handleBlur}
           />
+          {registerFormData.touched.age && registerFormData.errors.age ? (
+            <div className="text-start text-danger">
+              {registerFormData.errors.age}
+            </div>
+          ) : null}
         </div>
+
         <div className="form-group my-2">
           <label htmlFor="address" className="text-start pb-1 w-100">
             Address
@@ -123,17 +186,39 @@ export default function RegisterForm() {
             name="address"
             id="address"
             placeholder="Address"
-            required
+            onChange={registerFormData.handleChange}
+            onBlur={registerFormData.handleBlur}
           />
+          {registerFormData.touched.address &&
+          registerFormData.errors.address ? (
+            <div className="text-start text-danger">
+              {registerFormData.errors.address}
+            </div>
+          ) : null}
         </div>
+
         <div className="form-group my-2">
           <label htmlFor="country" className="text-start pb-1 w-100">
             Country
           </label>
-          <select className="form-control" id="country" name="country" required>
+          <select
+            className="form-control"
+            id="country"
+            name="country"
+            required
+            onChange={registerFormData.handleChange}
+            onBlur={registerFormData.handleBlur}
+          >
             {countryList}
           </select>
+          {registerFormData.touched.country &&
+          registerFormData.errors.country ? (
+            <div className="text-start text-danger">
+              {registerFormData.errors.country}
+            </div>
+          ) : null}
         </div>
+
         <div className="form-group my-2">
           <label htmlFor="pincode" className="text-start pb-1 w-100">
             Pincode
@@ -145,8 +230,15 @@ export default function RegisterForm() {
             id="pincode"
             placeholder="Pincode"
             required
-            maxLength={6}
+            onChange={registerFormData.handleChange}
+            onBlur={registerFormData.handleBlur}
           />
+          {registerFormData.touched.pincode &&
+          registerFormData.errors.pincode ? (
+            <div className="text-start text-danger">
+              {registerFormData.errors.pincode}
+            </div>
+          ) : null}
         </div>
         <div className="my-1">
           <button type="submit" className="btn btn-primary mb-2">
